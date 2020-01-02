@@ -4,30 +4,33 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const bcrypt= require('bcryptjs');
 const app = express();
-
+//
 mongoose.connect('mongodb://localhost:27017/mylib', {useNewUrlParser: true,useUnifiedTopology:true});
-
+//
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true
 }));
 
 //Create Schema/Model of the student
-const Student = mongoose.model('Student',{
+const  Users= mongoose.model('Users',{
     name: String,
     email: String,
+    password: String,
+    date_added: Date
     }); 
 //
 
 //
-app.get('/', async (req,res)=>{
+// app.get('/', async (req,res)=>{
     
     
-    const allstudent= await Student.find();
-    console.log('all student: ', allstudent);
-    res.send(allstudent);
-});
+//     const allstudent= await Student.find();
+//     console.log('all student: ', allstudent);
+//     res.send(allstudent);
+// });
 //
 
 //
@@ -37,14 +40,18 @@ app.post('/signup', async (req, res) => {
     console.log('req.body', body);
     
     try{
-        const student = new Student(body);
-
-        const result = await student.save();
-        console.log(result);
-        
-    
+        const password= body.password;
+        var salt = bcrypt.genSaltSync(10);
+        var hash = bcrypt.hashSync(password,salt);
+        body.password=hash;
+      
+        //create object of Users schema
+        const user= new Users(body);
+        //save to mongodb
+        const result = await user.save();
+        //send response to the client
     res.send({
-      message: result+' Student signup Successfully'
+      message:' Student signup Successfully'
     });
     
     }
@@ -57,25 +64,25 @@ app.post('/signup', async (req, res) => {
 
 
 //###Login method of POST
-app.post('/login', async (req,res) => {
-    try{
-    const body= req.body;
-    console.log('req :',body);
+// app.post('/login', async (req,res) => {
+//     try{
+//     const body= req.body;
+//     console.log('req :',body);
 
     
-        const email= body.email;       
-    const result= await Student.findOne({email: email});
-    console.log('result: ', result);
-    res.send({
-            result: result
-        });
-    }
-    catch(ex){
-        console.log('Error: ', ex);
-        res.send({message:'Error'}).status(401);
-    }
+//         const email= body.email;       
+//     const result= await Student.findOne({email: email});
+//     console.log('result: ', result);
+//     res.send({
+//             result: result
+//         });
+//     }
+//     catch(ex){
+//         console.log('Error: ', ex);
+//         res.send({message:'Error'}).status(401);
+//     }
 
-});
+// });
 
 // //################################################
 
