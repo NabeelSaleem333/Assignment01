@@ -5,6 +5,7 @@ const express = require('express'); //npm install express
 const mongoose = require('mongoose'); //npm install mongoose
 const bodyParser = require('body-parser');//npm install body-parse
 const bcrypt = require('bcryptjs'); //npm install bcryptjs
+const jsonwebtoken = require('jsonwebtoken'); //npm install jsonwebtoken
 const app = express();
 //
 mongoose.connect('mongodb://localhost:27017/mylib', { useNewUrlParser: true, useUnifiedTopology: true });
@@ -81,11 +82,20 @@ app.post('/login', async (req, res) => {
     else{
     
       if(bcrypt.compareSync( body.password, result.password)){
-      console.log('match');
-      res.send({ message: 'Logged in successfully...!'});
+      
+        //delete result['password'];
+        result.password = undefined;
+        //token to sign in to account
+        const token = jsonwebtoken.sign({
+          data:result,
+          role: 'user'
+        }, 'supersecretToken', {expiresIn: '7d'});
+        
+        console.log('Token: ',token);
+
+      res.send({ message: 'Logged in successfully...! '+token});
       }
       else{
-        console.log('Password does not match');
         res.status(401).send({message:'Wrong Email or Password'});
       }
     }
