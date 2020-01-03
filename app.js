@@ -134,7 +134,7 @@ app.use(
     })
   );
   
-  app.use(bodyParser.json()); // to support JSON-encoded bodies
+  app.use(bodyParser.json()); 
   
 // Requiring Routes
 
