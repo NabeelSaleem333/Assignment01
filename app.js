@@ -133,7 +133,6 @@ app.use(
       extended: true
     })
   );
-  
   app.use(bodyParser.json()); 
 // Requiring Routes
 const UsersRoutes = require('./routes/users.routes');
