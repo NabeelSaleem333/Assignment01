@@ -139,7 +139,6 @@ const UsersRoutes = require('./routes/users.routes');
 const BooksRoutes = require('./routes/books.routes');
 // connection to mongoose
 const mongoCon = process.env.mongoCon;
-
 mongoose.connect(mongoCon,{ useNewUrlParser: true,useCreateIndex: true, useUnifiedTopology: true });
 
 
