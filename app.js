@@ -117,7 +117,6 @@
 //   console.log('Medical Express Application running on localhost:3000');
 // });
 
-
 const express = require('express');
 const app = express();
 const http = require('http');
