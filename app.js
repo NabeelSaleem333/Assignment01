@@ -135,9 +135,7 @@ app.use(
   );
   
   app.use(bodyParser.json()); 
-  
 // Requiring Routes
-
 const UsersRoutes = require('./routes/users.routes');
 const BooksRoutes = require('./routes/books.routes');
 
