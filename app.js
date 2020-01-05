@@ -55,13 +55,11 @@ app.post('/signup', async (req, res) => {
     res.send({
       message: ' Student signup Successfully'
     });
-
   }
   catch (ex) {
     console.log('ex', ex);
     res.send({ message: 'Error' }).status(401);
   }
-
 });
 //#######################################
 //
