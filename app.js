@@ -116,9 +116,6 @@ app.post('/login', async (req, res) => {
 app.listen(3000, () => {
   console.log('Medical Express Application running on localhost:3000');
 });
-
-
-
 // const express = require('express');
 // const app = express();
 // const http = require('http');
@@ -172,3 +169,4 @@ app.listen(3000, () => {
 
 // server.listen(app.get('port'));
 // console.log('listening on port',app.get('port'));
+
